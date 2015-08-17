@@ -7,10 +7,10 @@ import org.specs2.specification.AfterExample
 trait CleanAfterExample extends AfterExample {
   self: EmbedConnection =>
 
-  lazy val mongoClient = new MongoClient(new ServerAddress(network.getServerAddress(), network.getPort()));
+  lazy val mongoClient = new MongoClient(new ServerAddress(network.getServerAddress, network.getPort))
 
-  def after() {
-    mongoClient.getDatabaseNames().map { mongoClient.getDB(_) }.foreach { _.dropDatabase() }
+  def after {
+    mongoClient.getDatabaseNames.map { mongoClient.getDB }.foreach { _.dropDatabase() }
   }
 
 }

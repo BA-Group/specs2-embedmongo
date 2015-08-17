@@ -34,5 +34,8 @@ class EmbedConnectionSpec extends Specification with EmbedConnection {
       Model.count() must be be_== (5)
     }
   }
+
+  //Override this method to personalize testing port
+  override val embedConnectionPort = 12345
 }
 

@@ -7,6 +7,8 @@ import org.specs2.mutable.Specification
 @RunWith(classOf[JUnitRunner])
 class CleanAfterExampleSpec extends Specification with EmbedConnection with CleanAfterExample {
 
+
+
   "Embed database" should {
     "be able to save a Model I" in {
       Model.save(Model(name = "test"))
@@ -33,4 +35,7 @@ class CleanAfterExampleSpec extends Specification with EmbedConnection with Clea
       Model.count() must be be_== (1)
     }
   }
+
+  //Override this method to personalize testing port
+  override val embedConnectionPort = 12345
 }

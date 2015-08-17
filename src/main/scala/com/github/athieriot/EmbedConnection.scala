@@ -18,10 +18,10 @@ trait EmbedConnection extends FragmentsBuilder {
   override def isolated: Arguments = args(isolated = true, sequential = false)
 
   //Override this method to personalize testing port
-  def embedConnectionPort(): Int = { 12345 }
+  def embedConnectionPort: Int
 
   //Override this method to personalize MongoDB version
-  def embedMongoDBVersion(): Version.Main = { Version.Main.PRODUCTION }
+  def embedMongoDBVersion: Version.Main = { Version.Main.PRODUCTION }
 
   lazy val network = new Net(embedConnectionPort, Network.localhostIsIPv6)
 
@@ -34,13 +34,13 @@ trait EmbedConnection extends FragmentsBuilder {
 
   lazy val mongodExecutable = runtime.prepare(mongodConfig)
 
-  override def map(fs: => Fragments) = startMongo ^ fs ^ stoptMongo
+  override def map(fs: => Fragments) = startMongo ^ fs ^ stopMongo
 
-  private def startMongo() = {
+  def startMongo() = {
     Example("Start Mongo", { mongodExecutable.start; success })
   }
 
-  private def stoptMongo() = {
-    Example("Stop Mongo", { mongodExecutable.stop; success })
+  def stopMongo() = {
+    Example("Stop Mongo", { mongodExecutable.stop(); success })
   }
 }
