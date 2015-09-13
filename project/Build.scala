@@ -51,7 +51,13 @@ object ProjectBuild extends Build {
         </developer>
       </developers>
     ),
-    publishTo := Some("cody" at "http://cody:8082/nexus/content/repositories/releases"),
-    credentials += Credentials(Path.userHome / ".sbt" / "sonatype.credentials")
+    publishTo <<= version { (v: String) =>
+      val nexus = "http://repository.ba-group.fi/"
+      if (v.trim.endsWith("SNAPSHOT"))
+        Some("snapshots" at nexus + "content/repositories/snapshots/")
+      else
+        Some("releases" at nexus + "content/repositories/releases/")
+    },
+    credentials += Credentials(Path.userHome / ".m2" / "nexus-credentials")
   )
 }
